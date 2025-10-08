@@ -1,5 +1,6 @@
 import defaultTheme from 'tailwindcss/defaultTheme';
 import forms from '@tailwindcss/forms';
+import colors from 'tailwindcss/colors'; // Importa as cores
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -9,14 +10,12 @@ export default {
         './resources/views/**/*.blade.php',
     ],
 
-    // Adiciona a classe bg-orange-600 à lista segura para garantir que seja sempre gerada.
-    safelist: [
-        'bg-orange-600',
-        'hover:bg-orange-700', // Adicione outras classes problemáticas aqui se necessário
-    ],
-
     theme: {
         extend: {
+            colors: {
+                // Adiciona a paleta de cores 'orange' para que você possa usá-la
+                orange: colors.orange,
+            },
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },

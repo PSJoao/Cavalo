@@ -10,25 +10,26 @@ Route::get('/', function () {
     return redirect()->route('pratos.index');
 });
 
-// Rotas públicas que qualquer um pode ver
+// --- ROTAS DE PRATOS ---
+// A ordem aqui é crucial. Rotas específicas primeiro.
 Route::get('/pratos', [PratoController::class, 'index'])->name('pratos.index');
-Route::get('/pratos/{prato}', [PratoController::class, 'show'])->name('pratos.show');
+Route::get('/pratos/create', [PratoController::class, 'create'])->name('pratos.create')->middleware('auth'); // Movida para cima e protegida
+Route::get('/pratos/{prato}', [PratoController::class, 'show'])->name('pratos.show'); // Rota dinâmica por último
 
 
 // Grupo de rotas que exigem que o usuário esteja logado
 Route::middleware('auth')->group(function () {
-    // Rota do Dashboard (opcional, mas o Breeze cria)
+    // Rota do Dashboard
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
     
-    // Rotas do Perfil (gerado pelo Breeze)
+    // Rotas do Perfil
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    // Rotas de CRUD dos pratos que precisam de login
-    Route::get('/pratos/create', [PratoController::class, 'create'])->name('pratos.create');
+    // Rotas de AÇÃO (POST, PUT, DELETE) para os pratos
     Route::post('/pratos', [PratoController::class, 'store'])->name('pratos.store');
     Route::get('/pratos/{prato}/edit', [PratoController::class, 'edit'])->name('pratos.edit');
     Route::put('/pratos/{prato}', [PratoController::class, 'update'])->name('pratos.update');
@@ -40,5 +41,5 @@ Route::middleware('auth')->group(function () {
     Route::post('/carrinho/finalizar', [CarrinhoController::class, 'finalizar'])->name('carrinho.finalizar');
 });
 
-// Inclui as rotas de autenticação (login, registro, etc.)
+// Inclui as rotas de autenticação
 require __DIR__.'/auth.php';
