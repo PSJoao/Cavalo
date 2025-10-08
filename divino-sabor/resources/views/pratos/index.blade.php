@@ -23,7 +23,7 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 @forelse ($pratos as $prato)
-                    <div class="card-prato">
+                    <a href="{{ route('pratos.show', $prato) }}" class="card-prato block hover:no-underline">
                         {{-- Se a imagem existir, mostre-a --}}
                         @if($prato->imagem)
                             <img src="{{ asset('storage/' . $prato->imagem) }}" alt="{{ $prato->nome }}" class="card-prato-imagem">
@@ -36,13 +36,8 @@
                             <h2 class="card-prato-titulo">{{ $prato->nome }}</h2>
                             <p class="text-gray-600">{{ Str::limit($prato->descricao, 100) }}</p>
                             <p class="card-prato-preco">R$ {{ number_format($prato->preco, 2, ',', '.') }}</p>
-                            
-                            {{-- Este link levará para a página de detalhes que ainda vamos criar --}}
-                            {{-- <a href="{{ route('pratos.show', $prato) }}" class="card-prato-botao-detalhes">
-                                Ver Detalhes
-                            </a> --}}
                         </div>
-                    </div>
+                    </a>
                 @empty
                     <div class="col-span-3">
                         <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4" role="alert">
