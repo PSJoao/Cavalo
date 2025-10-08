@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Prato;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class PratoController extends Controller
@@ -29,6 +30,7 @@ class PratoController extends Controller
         ]);
 
         $dados = $request->all();
+        $dados['user_id'] = Auth::id(); // Pega o ID do usuário logado
 
         if ($request->hasFile('imagem')) {
             $caminhoImagem = $request->file('imagem')->store('imagens_pratos', 'public');
@@ -47,11 +49,20 @@ class PratoController extends Controller
 
     public function edit(Prato $prato)
     {
+        // VERIFICAÇÃO DE AUTORIZAÇÃO
+        if ($prato->user_id !== Auth::id()) {
+            abort(403, 'Acesso não autorizado.');
+        }
         return view('pratos.edit', ['prato' => $prato]);
     }
 
     public function update(Request $request, Prato $prato)
     {
+        // VERIFICAÇÃO DE AUTORIZAÇÃO
+        if ($prato->user_id !== Auth::id()) {
+            abort(403, 'Acesso não autorizado.');
+        }
+
         $request->validate([
             'nome' => 'required|string|max:255',
             'descricao' => 'required|string',
@@ -62,7 +73,6 @@ class PratoController extends Controller
         $dados = $request->all();
 
         if ($request->hasFile('imagem')) {
-            // Deleta a imagem antiga se existir
             if ($prato->imagem && Storage::disk('public')->exists($prato->imagem)) {
                 Storage::disk('public')->delete($prato->imagem);
             }
@@ -77,7 +87,11 @@ class PratoController extends Controller
 
     public function destroy(Prato $prato)
     {
-        // Deleta a imagem do prato se ela existir
+        // VERIFICAÇÃO DE AUTORIZAÇÃO
+        if ($prato->user_id !== Auth::id()) {
+            abort(403, 'Acesso não autorizado.');
+        }
+
         if ($prato->imagem && Storage::disk('public')->exists($prato->imagem)) {
             Storage::disk('public')->delete($prato->imagem);
         }

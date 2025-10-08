@@ -1,0 +1,47 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@400;500&display=swap');
+
+body {
+    background-color: #FDF8F2; /* Um branco-creme bem suave */
+    font-family: 'Roboto', sans-serif;
+}
+
+/* Estilizando a barra de navegação do Breeze */
+nav.bg-white {
+    background-color: #4A2E2A !important; /* Marrom escuro */
+}
+
+nav.bg-white a, nav.bg-white button, nav.bg-white svg {
+    color: #FFFFFF !important;
+}
+
+/* Títulos principais */
+h1, h2, h3 {
+    font-family: 'Playfair Display', serif;
+    color: #4A2E2A;
+}
+
+/* Botão customizado principal */
+.btn-custom {
+    @apply bg-orange-600 text-white font-bold py-2 px-4 rounded-lg shadow-md transition-transform transform hover:scale-105;
+}
+
+/* Cards dos Pratos */
+.card-prato {
+    @apply bg-white rounded-lg shadow-lg overflow-hidden transition-shadow duration-300 hover:shadow-2xl;
+}
+.card-prato-imagem {
+    @apply w-full h-56 object-cover;
+}
+.card-prato-corpo {
+    @apply p-6;
+}
+.card-prato-titulo {
+    @apply font-bold text-2xl mb-2 text-gray-800;
+    font-family: 'Playfair Display', serif;
+}
+.card-prato-preco {
+    @apply text-xl font-semibold text-green-700 mt-4;
+}
+.card-prato-botao-detalhes {
+    @apply mt-4 block w-full text-center bg-gray-800 text-white py-2 rounded-md hover:bg-gray-900 transition-colors;
+}
